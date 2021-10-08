@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.common.util.ConnectionManager;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.User;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.UserRole;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.UserRepository;
 
 import java.sql.*;
@@ -29,6 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
 				String middleName = rs.getString("middle_name");
 				LocalDate dateOfBirth = rs.getDate("date_of_birth").toLocalDate();
 				String description = rs.getString("description");
+				UserRole role = UserRole.valueOf(rs.getString("msa_role"));
 				user = new User(id, username, passwordHash, email, firstName, lastName, middleName, dateOfBirth, description, new ArrayList<>());
 			}
 		} catch (SQLException e) {
@@ -39,7 +41,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 	//language=SQL
 	private static final String SQL_FIND_BY_ID = "SELECT u.id, u.username, u.password_hash, u.email, u.first_name, u.last_name," +
-			" u.middle_name, u.date_of_birth, u.description " +
+			" u.middle_name, u.date_of_birth, u.description, u.msa_role " +
 			"FROM msa_user u WHERE u.id = ?";
 
 	@Override
@@ -60,7 +62,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 	//language=SQL
 	private static final String SQL_FIND_BY_USERNAME = "SELECT u.id, u.username, u.password_hash, u.email, u.first_name, u.last_name," +
-			" u.middle_name, u.date_of_birth, u.description " +
+			" u.middle_name, u.date_of_birth, u.description, u.msa_role " +
 			"FROM msa_user u WHERE u.username = ?";
 
 	@Override
@@ -80,8 +82,8 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	//language=SQL
-	private static final String SQL_SAVE = "INSERT INTO msa_user " + "(username, password_hash, email, first_name, last_name, middle_name, date_of_birth, description) " +
-			"VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String SQL_SAVE = "INSERT INTO msa_user (username, password_hash, email, first_name, last_name, middle_name, date_of_birth, description, msa_role) " +
+			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	@Override
 	public User save(User user) {
@@ -96,7 +98,7 @@ public class UserRepositoryImpl implements UserRepository {
 			statement.setString(6, user.getMiddleName());
 			statement.setDate(7, Date.valueOf(user.getDateOfBirth()));
 			statement.setString(8, user.getDescription());
-
+			statement.setString(9, user.getRole().toString());
 			int affectedRows = statement.executeUpdate();
 			if (affectedRows != 1){
 				throw new SQLException("Save error");

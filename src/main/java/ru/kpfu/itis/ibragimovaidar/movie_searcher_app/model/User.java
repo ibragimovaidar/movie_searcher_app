@@ -20,6 +20,8 @@ public class User {
 
 	private List<Review> reviews;
 
+	private UserRole role = UserRole.USER;
+
 	public User() {
 	}
 
@@ -125,6 +127,14 @@ public class User {
 
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
+	}
+
+	public UserRole getRole() {
+		return role;
+	}
+
+	public void setRole(UserRole role) {
+		this.role = role;
 	}
 
 	@Override

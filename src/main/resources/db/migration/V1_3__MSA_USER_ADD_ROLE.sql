@@ -1,0 +1,7 @@
+CREATE TYPE MSA_ROLE AS ENUM ('USER', 'EDITOR', 'ADMIN');
+
+BEGIN;
+ALTER TABLE msa_user ADD COLUMN msa_role MSA_ROLE DEFAULT 'USER';
+UPDATE msa_user SET msa_role = 'USER' WHERE msa_user.msa_role IS NULL;
+ALTER TABLE msa_user ALTER COLUMN msa_role SET NOT NULL;
+COMMIT;
