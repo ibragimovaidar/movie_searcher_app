@@ -6,6 +6,8 @@ import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.dto.UserSignInForm;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.UserService;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.UserServiceImpl;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +19,13 @@ import java.io.IOException;
 @WebServlet(name = "signInServlet", urlPatterns = "/signIn")
 public class SignInServlet extends HttpServlet {
 
-	private final UserService userService = new UserServiceImpl();
+	private UserService userService;
+
+	@Override
+	public void init(ServletConfig servletConfig){
+		ServletContext context = servletConfig.getServletContext();
+		userService = (UserService) context.getAttribute(UserService.class.getName());
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
