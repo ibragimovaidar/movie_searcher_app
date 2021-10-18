@@ -6,14 +6,17 @@ import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.dto.UserSignInForm;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.dto.UserSignUpForm;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.User;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.UserRepository;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.UserRepositoryImpl;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.UserService;
 
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
-	UserRepository userRepository = new UserRepositoryImpl();
+	private final UserRepository userRepository;
+
+	public UserServiceImpl(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	public Optional<UserDTO> findById(Integer id){
 		Optional<User> user = userRepository.findById(id);
