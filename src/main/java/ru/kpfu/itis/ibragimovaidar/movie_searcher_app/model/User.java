@@ -22,10 +22,12 @@ public class User {
 
 	private UserRole role = UserRole.USER;
 
+	private ImageMetadata imageMetadata;
+
 	public User() {
 	}
 
-	public User(String username, String passwordHash, String email, String firstName, String lastName, String middleName, LocalDate dateOfBirth, String description) {
+	public User(String username, String passwordHash, String email, String firstName, String lastName, String middleName, LocalDate dateOfBirth, String description, List<Review> reviews, UserRole role, ImageMetadata imageMetadata) {
 		this.username = username;
 		this.passwordHash = passwordHash;
 		this.email = email;
@@ -34,9 +36,12 @@ public class User {
 		this.middleName = middleName;
 		this.dateOfBirth = dateOfBirth;
 		this.description = description;
+		this.reviews = reviews;
+		this.role = role;
+		this.imageMetadata = imageMetadata;
 	}
 
-	public User(Integer id, String username, String passwordHash, String email, String firstName, String lastName, String middleName, LocalDate dateOfBirth, String description, List<Review> reviews) {
+	public User(Integer id, String username, String passwordHash, String email, String firstName, String lastName, String middleName, LocalDate dateOfBirth, String description, List<Review> reviews, UserRole role, ImageMetadata imageMetadata) {
 		this.id = id;
 		this.username = username;
 		this.passwordHash = passwordHash;
@@ -47,6 +52,8 @@ public class User {
 		this.dateOfBirth = dateOfBirth;
 		this.description = description;
 		this.reviews = reviews;
+		this.role = role;
+		this.imageMetadata = imageMetadata;
 	}
 
 	public Integer getId() {
@@ -135,6 +142,14 @@ public class User {
 
 	public void setRole(UserRole role) {
 		this.role = role;
+	}
+
+	public ImageMetadata getImageMetadata() {
+		return imageMetadata;
+	}
+
+	public void setImageMetadata(ImageMetadata imageMetadata) {
+		this.imageMetadata = imageMetadata;
 	}
 
 	@Override
