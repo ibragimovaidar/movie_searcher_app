@@ -8,5 +8,6 @@ public interface UserRepository {
 
 	Optional<User> findById(Integer id);
 	Optional<User> findByUsername(String username);
+	User update(User user);
 	User save(User user);
 }
