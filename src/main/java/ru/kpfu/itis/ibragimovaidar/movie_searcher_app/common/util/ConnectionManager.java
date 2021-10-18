@@ -39,6 +39,7 @@ public final class ConnectionManager {
 		}
 	}
 
+
 	private ConnectionManager() {
 		throw new RuntimeException();
 	}
