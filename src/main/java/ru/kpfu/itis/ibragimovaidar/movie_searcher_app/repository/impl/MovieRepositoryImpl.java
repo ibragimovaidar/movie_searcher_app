@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -47,17 +48,41 @@ public class MovieRepositoryImpl implements MovieRepository {
 				String name = rs.getString("name");
 				String country = rs.getString("country");
 				LocalDate dateOfRelease = rs.getDate("date_of_release").toLocalDate();
-				int averageRating = rs.getInt("averageRating");
+				int averageRating = rs.getInt("average_rating");
 				String description = rs.getString("description");
 				MovieGenre movieGenre = movieGenreRepository.findById(rs.getInt("movie_genre_id")).orElse(null);
-				ImageMetadata imageMetadata = imageRepository.findById(rs.getInt("image_matadata_id")).orElse(null);
+				ImageMetadata imageMetadata = imageRepository.findById(rs.getInt("image_metadata_id")).orElse(null);
 				List<Person> participants = personRepository.findByMovieId(id);
 				movie = new Movie(id, name, dateOfRelease, country, averageRating, movieGenre, participants, description, imageMetadata);
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			LOGGER.error("movieResultSetExtractor error ", e);
 		}
 		return movie;
+	};
+
+	private final Function<ResultSet, List<Movie>> movieListResultSetExtractor = (ResultSet rs) -> {
+		List<Movie> movies = new ArrayList<>();
+		try {
+			while (rs.next()){
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				String country = rs.getString("country");
+				LocalDate dateOfRelease = rs.getDate("date_of_release").toLocalDate();
+				int averageRating = rs.getInt("average_rating");
+				String description = rs.getString("description");
+				MovieGenre movieGenre = movieGenreRepository.findById(rs.getInt("movie_genre_id")).orElse(null);
+				ImageMetadata imageMetadata = imageRepository.findById(rs.getInt("image_metadata_id")).orElse(null);
+				List<Person> participants = personRepository.findByMovieId(id);
+				Movie movie = new Movie(id, name, dateOfRelease, country, averageRating, movieGenre, participants, description, imageMetadata);
+				movies.add(movie);
+			}
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+			LOGGER.error("", throwables);
+		}
+		return movies;
 	};
 
 	//language=SQL
@@ -114,6 +139,36 @@ public class MovieRepositoryImpl implements MovieRepository {
 			throwables.printStackTrace();
 		}
 		return movie;
+	}
+
+	//language=SQL
+	private static final String SQL_FIND_BY_MOVIE_GENRE = "SELECT id, name, date_of_release, country, average_rating, " +
+			"description, movie_genre_id, image_metadata_id " +
+			"FROM movie WHERE movie_genre_id = ?";
+
+	@Override
+	public List<Movie> findByMovieGenre(MovieGenre movieGenre) {
+
+		try (Connection connection = ConnectionManager.getConnection();
+			PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_MOVIE_GENRE)
+		){
+			statement.setInt(1, movieGenre.getId());
+			ResultSet resultSet = statement.executeQuery();
+			return movieListResultSetExtractor.apply(resultSet);
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+			return new ArrayList<>();
+		}
+	}
+
+	@Override
+	public List<Movie> findByMovieGenreName(String name) {
+		Optional<MovieGenre> movieGenre = movieGenreRepository.findByName(name);
+		if (movieGenre.isPresent()){
+			return findByMovieGenre(movieGenre.get());
+		}
+		LOGGER.error("MovieGenre with given name \"" + name +"\" not found");
+		return new ArrayList<>();
 	}
 
 	//language=SQL

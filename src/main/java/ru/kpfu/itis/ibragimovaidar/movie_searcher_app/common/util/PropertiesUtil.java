@@ -6,7 +6,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Properties;
 
-public final class PropertiesUtil {
+public final class
+PropertiesUtil {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtil.class);
 

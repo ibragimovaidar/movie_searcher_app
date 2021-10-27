@@ -16,6 +16,7 @@ public class ProfileServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		UserDTO userDTO = (UserDTO) req.getSession().getAttribute("userDTO");
 		req.setAttribute("userDTO", userDTO);
+		req.setAttribute("imageSrc", "/images/" + userDTO.getImageMetadata().getFolder() + "?w=256&h=256");
 		req.getRequestDispatcher("profile.ftl").forward(req, resp);
 	}
 }

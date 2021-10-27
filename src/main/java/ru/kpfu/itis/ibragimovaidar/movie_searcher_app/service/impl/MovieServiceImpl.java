@@ -21,6 +21,8 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public Optional<MovieDTO> findById(Integer id) {
+		System.out.println(id);
+		System.out.println(movieRepository.findById(id));
 		return movieRepository.findById(id).map(MovieDTO::from);
 	}
 }
