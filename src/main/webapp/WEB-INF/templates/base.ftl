@@ -1,29 +1,66 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><@title></@title></title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.0.2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <div id="header">
-        <H3> Header</H3>
+<header>
+    <div class="header">
+        <div class="container-fluid">
+            <div class="row header__content">
+                <div class="col-md-3 p-3 border bg-light header__item">
+                </div>
+                <div class="col-md-3  p-3 border bg-light header__item">
+                </div>
+                <div class="col-md-3  p-3 border bg-light header__item">
+                </div>
+                <div class="col-md-3  p-3 border bg-light header__item">
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="content1">
-        <div class="content"><@content></@content></div>
-    </div>
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-dark header__navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="/static/img/logo.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                Shikimori
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Аниме</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Категории</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Рецензии</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<main>
+    <@main></@main>
+</main>
+<footer>
 
-    <div id="footer">
-        <img src="/static/gif/run-run-run-brawl-stars-el-primo-gif.gif" alt="el primo"/>
-        <img src="/static/gif/running.gif" alt="brawl stars"/>
-        <img src="/static/gif/running2.gif" alt="brawl stars"/>
-        <img src="/static/gif/crying-sad.gif" alt="el primo sad"/>
-        <img src="/static/gif/ready-ronin-ruffs.gif" alt="el primo sad"/>
-
-        <H3> Footer</H3>
-    </div>
+</footer>
+<!-- Bootstrap JavaScript Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="/static/js/style.js"></script>
 </body>
 </html>

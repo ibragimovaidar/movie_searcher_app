@@ -1,7 +1,11 @@
 <#include "base.ftl">
-<#macro title>Movie searcher - Login</#macro>
+<#macro title>Movie searcher - Profile</#macro>
 <#macro content>
     <div>
-        <p>User : ${userDTO}</p>
+        <p>User profile</p>
+        <img src="${imageSrc}" alt="Profile image"/>
+        <p>${userDTO.firstName} ${userDTO.lastName}</p>
+        <p>${userDTO.username}</p>
     </div>
+
 </#macro>
