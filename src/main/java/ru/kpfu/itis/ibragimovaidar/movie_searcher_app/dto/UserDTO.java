@@ -13,14 +13,16 @@ public class UserDTO {
 	private final String firstName;
 	private final String lastName;
 	private final UserRole role;
+	private final String description;
 	private final ImageMetadata imageMetadata;
 
-	public UserDTO(Integer id, String username, String firstName, String lastName, UserRole role, ImageMetadata imageMetadata) {
+	public UserDTO(Integer id, String username, String firstName, String lastName, UserRole role, String description, ImageMetadata imageMetadata) {
 		this.id = id;
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.role = role;
+		this.description = description;
 		this.imageMetadata = imageMetadata;
 	}
 
@@ -44,9 +46,14 @@ public class UserDTO {
 		return lastName;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
 	public ImageMetadata getImageMetadata() {
 		return imageMetadata;
 	}
+
 
 	public static UserDTO from(User user){
 		return new UserDTO(
@@ -55,6 +62,7 @@ public class UserDTO {
 				user.getFirstName(),
 				user.getLastName(),
 				user.getRole(),
+				user.getDescription(),
 				user.getImageMetadata()
 		);
 	}

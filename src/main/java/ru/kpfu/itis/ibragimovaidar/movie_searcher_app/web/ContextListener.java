@@ -1,13 +1,30 @@
 package ru.kpfu.itis.ibragimovaidar.movie_searcher_app.web;
 
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.MovieGenre;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.*;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.*;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.ImageRepository;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.MovieCommentaryRepository;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.MovieGenreRepository;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.MovieRepository;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.PersonRepository;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.ReviewRepository;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.UserRepository;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.ImageRepositoryImpl;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.MovieCommentaryRepositoryImpl;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.MovieGenreRepositoryImpl;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.MovieRepositoryImpl;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.PersonRepositoryImpl;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.ReviewRepositoryImpl;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.UserRepositoryImpl;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.ImageResizeService;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.MovieCommentaryService;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.MovieService;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.PersonService;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.*;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.UserService;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.ImageResizeServiceImpl;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.ImagesService;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.MovieCommentaryServiceImpl;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.MovieServiceImpl;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.PersonServiceImpl;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -24,10 +41,13 @@ public class ContextListener implements ServletContextListener {
 		ImageRepository imageRepository = new ImageRepositoryImpl();
 		PersonRepository personRepository = new PersonRepositoryImpl(imageRepository);
 		MovieGenreRepository movieGenreRepository = new MovieGenreRepositoryImpl();
+		MovieCommentaryRepository movieCommentaryRepository = new MovieCommentaryRepositoryImpl();
 		MovieRepository movieRepository =
-				new MovieRepositoryImpl(imageRepository, personRepository, movieGenreRepository);
+				new MovieRepositoryImpl(imageRepository, personRepository, movieGenreRepository, movieCommentaryRepository);
 		ReviewRepository reviewRepository = new ReviewRepositoryImpl(movieRepository);
 		UserRepository userRepository = new UserRepositoryImpl(imageRepository, reviewRepository);
+
+		movieCommentaryRepository.setUserRepository(userRepository);
 
 		MovieService movieService = new MovieServiceImpl(movieRepository);
 		context.setAttribute(MovieService.class.getName(), movieService);
@@ -44,6 +64,9 @@ public class ContextListener implements ServletContextListener {
 		ImagesService imagesService = new ImagesService(imageResizeService, userRepository, imageRepository);
 		context.setAttribute(ImagesService.class.getName(), imagesService);
 
+		MovieCommentaryService movieCommentaryService =
+				new MovieCommentaryServiceImpl(movieCommentaryRepository, userRepository);
+		context.setAttribute(MovieCommentaryService.class.getName(), movieCommentaryService);
 	}
 
 	@Override

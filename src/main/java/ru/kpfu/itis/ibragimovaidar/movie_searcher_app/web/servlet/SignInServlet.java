@@ -1,6 +1,7 @@
 package ru.kpfu.itis.ibragimovaidar.movie_searcher_app.web.servlet;
 
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.common.exception.WrongUserOrPasswordException;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.dto.LightUserDTO;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.dto.UserDTO;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.dto.UserSignInForm;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.UserService;
@@ -45,6 +46,8 @@ public class SignInServlet extends HttpServlet {
 		UserDTO userDTO = userService.authenticateUser(userSignInForm)
 				.orElseThrow(WrongUserOrPasswordException::new);
 		session.setAttribute("userDTO", userDTO);
-		resp.sendRedirect("/profile");
+		session.setAttribute("lightUserDTO", LightUserDTO.from(userDTO));
+		session.setAttribute("authorized", true);
+		resp.sendRedirect("/profile?username=" + userDTO.getUsername());
 	}
 }

@@ -19,8 +19,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public Optional<UserDTO> findById(Integer id){
-		Optional<User> user = userRepository.findById(id);
-		return user.map(UserDTO::from);
+		return userRepository.findById(id).map(UserDTO::from);
+	}
+
+	@Override
+	public Optional<UserDTO> findByUsername(String username) {
+		return userRepository.findByUsername(username).map(UserDTO::from);
 	}
 
 	public UserDTO createUser(UserSignUpForm userSignUpForm){

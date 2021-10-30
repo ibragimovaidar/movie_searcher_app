@@ -97,9 +97,71 @@ body {
     font-weight: 400;
 }
 
-.movie__description {
+.movie__description__row {
+    margin-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+
+}
+
+.movie__rating__value {
+    color: #3BB33B;
+}
+
+/* Movie comments */
+
+.movie__comments {
     margin-top: 50px;
 }
+
+.movie__comments__header__wrapper {
+    margin-top: 100px;
+}
+
+.movie__comments__header {
+
+}
+
+/* ---- Movie comments list */
+
+
+.movie__comments__list__wrapper {
+    margin-top: 20px;
+}
+
+/* ---- ---- Movie comment elem */
+
+.movie__comments__list__elem {
+    margin-top:10px;
+    border-bottom: 1px #D6D6D6 solid;
+    
+}
+
+.movie__comment__created_at {
+    color: #FF6F22;
+    font-size: 12px;
+}
+
+.movie__comment__username {
+    color: #FF6F22;
+}
+
+.movie__comment__text {
+
+}
+/* ---- ---- end Movie comments elem*/
+
+.movie__comments__form__wrapper {
+    border-top: 1px #D6D6D6 solid;
+    border-bottom: 1px #D6D6D6 solid;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+
+/* ---- Movie comments list end */
+
+/* end Movie comments */
 
 
 .main__container {
@@ -135,4 +197,9 @@ body {
 
 .link__grey:hover {
     color:#D6D6D6;
+}
+
+
+.btn {
+    background-color: #FF6F22;
 }

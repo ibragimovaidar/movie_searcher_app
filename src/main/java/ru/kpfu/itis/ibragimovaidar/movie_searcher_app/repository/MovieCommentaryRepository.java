@@ -10,4 +10,7 @@ public interface MovieCommentaryRepository {
 	Optional<MovieCommentary> findById(Integer id);
 	List<MovieCommentary> findByMovieId(Integer movieId);
 	MovieCommentary save(MovieCommentary movieCommentary, Integer movieId);
+
+	// to solve cycle dependency (
+	void setUserRepository(UserRepository userRepository);
 }

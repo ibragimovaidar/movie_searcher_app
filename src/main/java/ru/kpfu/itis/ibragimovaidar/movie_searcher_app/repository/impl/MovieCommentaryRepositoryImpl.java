@@ -20,9 +20,16 @@ public class MovieCommentaryRepositoryImpl implements MovieCommentaryRepository 
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MovieCommentaryRepositoryImpl.class);
 
-	private final UserRepository userRepository;
+	private UserRepository userRepository;
+
+	public MovieCommentaryRepositoryImpl() {
+	}
 
 	public MovieCommentaryRepositoryImpl(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
+	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 
@@ -47,7 +54,7 @@ public class MovieCommentaryRepositoryImpl implements MovieCommentaryRepository 
 
 	//language=SQL
 	private static final String SQL_FIND_BY_MOVIE_ID = "SELECT id, text, rating, created_at, msa_user_id, movie_id " +
-			"FROM movie_commentary WHERE movie_id = ?";
+			"FROM movie_commentary WHERE movie_id = ? ORDER BY created_at DESC ";
 
 	@Override
 	public List<MovieCommentary> findByMovieId(Integer movieId) {
@@ -84,7 +91,11 @@ public class MovieCommentaryRepositoryImpl implements MovieCommentaryRepository 
 				throw new SQLException("Save error");
 			}
 			try (ResultSet generatedKeys = statement.getGeneratedKeys()){
-				movieCommentary.setId(generatedKeys.getInt("id"));
+				if (generatedKeys.next()){
+					movieCommentary.setId(generatedKeys.getInt("id"));
+				} else {
+					throw new SQLException("Error extracting generated key");
+				}
 			}
 		} catch (SQLException throwables) {
 			LOGGER.error("", throwables);
