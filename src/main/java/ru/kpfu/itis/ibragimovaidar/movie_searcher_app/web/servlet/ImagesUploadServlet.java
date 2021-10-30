@@ -37,12 +37,13 @@ public class ImagesUploadServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Part imageFilePart = request.getPart("file");
-		Integer userId = ((UserDTO) request.getSession().getAttribute("userDTO")).getId();
+		UserDTO userDTO = (UserDTO) request.getSession().getAttribute("userDTO");
+		Integer userId = userDTO.getId();
 		try {
 			imagesService.saveImage(userId, imageFilePart);
 		} catch (ServiceException e) {
 			throw new ServletException(e);
 		}
-		response.sendRedirect("/profile");
+		response.sendRedirect("/profile?username=" + userDTO.getUsername());
 	}
 }

@@ -1,6 +1,6 @@
 <#ftl encoding='UTF-8'>
 <#include "base.ftl">
-<#macro title> ${movieDTO.name} - Shikimori</#macro>
+<#macro title> ${movieDTO.name}</#macro>
 <#macro main>
     <div class="container main__container">
         <div class="row movie__info">
@@ -20,7 +20,7 @@
                             <table class="table table-hover movie__info__about__table">
                                 <tr>
                                     <td class="text__grey">Год выпуска</td>
-                                    <td>2020</td>
+                                    <td>${movieDTO.dateOfRelease}</td>
                                 </tr>
                                 <tr>
                                     <td class="text__grey">Страна</td>
@@ -28,11 +28,11 @@
                                 </tr>
                                 <tr>
                                     <td class="text__grey">Жанр</td>
-                                    <td >Боевик</td>
+                                    <td>${movieDTO.movieGenreName}</td>
                                 </tr>
                                 <tr>
                                     <td class="text__grey">Премьера</td>
-                                    <td>13 сентября 2002</td>
+                                    <td>${movieDTO.dateOfRelease}</td>
                                 </tr>
                                 <tr>
                                     <td class="text__grey">Длительность</td>
@@ -47,7 +47,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 movie__info__info__rating ">
-                            <p class="h1 text-center">97/100</p>
+                            <p class="h1 text-center movie__rating__value"><strong>97/100</strong></p>
                             <a href="#" class="text-dark">
                                 <p class="text-center">24 рецензии</p>
                             </a>
@@ -59,32 +59,71 @@
                                     В главных ролях:
                                 </span>
                             <ul class="list-unstyled text__grey">
-                                <li>
-                                    <a href="#" class="link__grey">Дэниэл Крэйг</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="link__grey">Рами Малек</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="link__grey">Леа Сейду</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="link__grey">Лашана Линч</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="link__grey">Бен Уишоу</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="link__grey">Наоми Харрис</a>
-                                </li>
+                                <#list movieDTO.participants as participant>
+                                    <li>
+                                        <a href="/person?id=${participant.id}" class="link__grey">
+                                            ${participant.firstName} ${participant.lastName}
+                                        </a>
+                                    </li>
+                                </#list>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row movie__description">
-                <p class="h3">Обзор</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente molestiae doloribus perspiciatis. Sequi, ipsa hic. A debitis quibusdam, incidunt nesciunt, consequuntur laudantium quidem nobis dicta cupiditate id dolorum sequi molestias?</p>
+            <div class="row movie__description__row">
+                <div class="col-md-10 movie__description">
+                    <p class="h3">Обзор</p>
+                    <p>${movieDTO.description}</p>
+                </div>
+            </div>
+
+            <div class="row movie__comments__row">
+                <div class="col-md-10 offset-md-1 movie__comments">
+                    <div class="movie__comments__form__wrapper">
+                        <#if authorized??>
+                            <p class="h5 movie__comments__header"><strong>Оставить комментарий</strong></p>
+                            <form method="post" action="/movieCommentary">
+                                <div class="form-group">
+                                    <label for="comment_text">Фильм</label>
+                                    <input class="form-control" type="text" name="movieId" value="${movieDTO.id}"  readonly>
+                                    <label for="comment_text">Пользователь</label>
+                                    <input class="form-control" type="text" name="ownerId" value="${userDTO.id}"  readonly>
+                                    <label for="comment_text">Текст комментария</label>
+                                    <textarea name="text" class="form-control .form-control-lg" id="comment_text" rows="3"></textarea>
+                                    <small id="emailHelp" class="form-text text-muted">не более 200 символов</small>
+                                </div>
+                                <br>
+                                <button type="submit" class="btn ">Оставить комментарий</button>
+                            </form>
+                        <#else>
+                            <p class="h5 movie__comments__header"><strong>Комментарии могут оставлять только авторизованные пользователи</strong></p>
+                        </#if>
+                    </div>
+
+                    <div class="movie__comments__header__wrapper">
+                        <p class="h3 movie__comments__header"><strong>Комментарии <sup>${movieDTO.movieCommentaryDTOList?size}</sup></strong></p>
+                    </div>
+                    <div class="movie__comments__list__wrapper">
+                        <ul class="list-unstyled movie__comments__list">
+                            <#list movieDTO.movieCommentaryDTOList as comment>
+                                <li>
+                                    <div class="movie__comments__list__elem">
+                                        <p>
+                                            <span class="movie__comment__created_at">${comment.createdAt}</span>
+                                            <span class="movie__comment__username">
+                                                <a href="/profile?username=${comment.ownerUsername}" class="link__grey">
+                                                    ${comment.ownerUsername}
+                                                </a>:
+                                            </span>
+                                        </p>
+                                        <p class="movie__comment__text">${comment.text}</p>
+                                    </div>
+                                </li>
+                            </#list>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

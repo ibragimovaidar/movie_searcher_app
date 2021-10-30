@@ -1,7 +1,7 @@
 ﻿<!doctype html>
 <html lang="en">
 <head>
-    <title><@title></@title></title>
+    <title><@title></@title> - MovieSearcherApp</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,7 +31,7 @@
         <div class="container">
             <a class="navbar-brand" href="#">
                 <img src="/static/img/logo.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
-                Shikimori
+                MovieSearcherApp
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -48,6 +48,17 @@
                         <a class="nav-link" href="#">Рецензии</a>
                     </li>
                 </ul>
+            </div>
+            <div class="d-flex">
+                <#if Session.lightUserDTO??>
+                    <a href="/profile?username=${lightUserDTO.username}">
+                        <img class="rounded-circle" height="64" width="64" src="${lightUserDTO.imageUrl}" alt="profile image">
+                    </a>
+                <#else>
+                    <a href="/signIn">
+                        <button class="btn btn-outline-warning">Sign in</button>
+                    </a>
+                </#if>
             </div>
         </div>
     </nav>

@@ -16,11 +16,12 @@ public class Movie {
 	private List<Person> participants;
 	private String description;
 	private ImageMetadata imageMetadata;
+	private List<MovieCommentary> movieCommentaries;
 
 	public Movie() {
 	}
 
-	public Movie(String name, LocalDate dateOfRelease, String country, Integer averageRating, MovieGenre movieGenre, List<Person> participants, String description, ImageMetadata imageMetadata) {
+	public Movie( String name, LocalDate dateOfRelease, String country, Integer averageRating, MovieGenre movieGenre, List<Person> participants, String description, ImageMetadata imageMetadata, List<MovieCommentary> movieCommentaries) {
 		this.name = name;
 		this.dateOfRelease = dateOfRelease;
 		this.country = country;
@@ -29,9 +30,10 @@ public class Movie {
 		this.participants = participants;
 		this.description = description;
 		this.imageMetadata = imageMetadata;
+		this.movieCommentaries = movieCommentaries;
 	}
 
-	public Movie(Integer id, String name, LocalDate dateOfRelease, String country, Integer averageRating, MovieGenre movieGenre, List<Person> participants, String description, ImageMetadata imageMetadata) {
+	public Movie(Integer id, String name, LocalDate dateOfRelease, String country, Integer averageRating, MovieGenre movieGenre, List<Person> participants, String description, ImageMetadata imageMetadata, List<MovieCommentary> movieCommentaries) {
 		this.id = id;
 		this.name = name;
 		this.dateOfRelease = dateOfRelease;
@@ -41,6 +43,7 @@ public class Movie {
 		this.participants = participants;
 		this.description = description;
 		this.imageMetadata = imageMetadata;
+		this.movieCommentaries = movieCommentaries;
 	}
 
 	public Integer getId() {
@@ -113,6 +116,14 @@ public class Movie {
 
 	public void setImageMetadata(ImageMetadata imageMetadata) {
 		this.imageMetadata = imageMetadata;
+	}
+
+	public List<MovieCommentary> getMovieCommentaries() {
+		return movieCommentaries;
+	}
+
+	public void setMovieCommentaries(List<MovieCommentary> movieCommentaries) {
+		this.movieCommentaries = movieCommentaries;
 	}
 
 	@Override

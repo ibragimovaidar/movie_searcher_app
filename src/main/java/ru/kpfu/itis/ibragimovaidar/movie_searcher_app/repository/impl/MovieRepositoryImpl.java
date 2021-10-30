@@ -3,14 +3,8 @@ package ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.common.util.ConnectionManager;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.ImageMetadata;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.Movie;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.MovieGenre;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.Person;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.ImageRepository;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.MovieGenreRepository;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.MovieRepository;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.PersonRepository;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.*;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.*;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -31,13 +25,17 @@ public class MovieRepositoryImpl implements MovieRepository {
 	private ImageRepository imageRepository;
 	private PersonRepository personRepository;
 	private MovieGenreRepository movieGenreRepository;
+	private MovieCommentaryRepository movieCommentaryRepository;
 
 	public MovieRepositoryImpl(ImageRepository imageRepository,
 							   PersonRepository personRepository,
-							   MovieGenreRepository movieGenreRepository) {
+							   MovieGenreRepository movieGenreRepository,
+							   MovieCommentaryRepository movieCommentaryRepository
+	) {
 		this.imageRepository = imageRepository;
 		this.personRepository = personRepository;
 		this.movieGenreRepository = movieGenreRepository;
+		this.movieCommentaryRepository = movieCommentaryRepository;
 	}
 
 	private final Function<ResultSet, Movie> movieResultSetExtractor = (ResultSet rs) -> {
@@ -53,7 +51,9 @@ public class MovieRepositoryImpl implements MovieRepository {
 				MovieGenre movieGenre = movieGenreRepository.findById(rs.getInt("movie_genre_id")).orElse(null);
 				ImageMetadata imageMetadata = imageRepository.findById(rs.getInt("image_metadata_id")).orElse(null);
 				List<Person> participants = personRepository.findByMovieId(id);
-				movie = new Movie(id, name, dateOfRelease, country, averageRating, movieGenre, participants, description, imageMetadata);
+				List<MovieCommentary> movieCommentaries = movieCommentaryRepository.findByMovieId(id);
+				movie = new Movie(id, name, dateOfRelease, country, averageRating, movieGenre,
+						participants, description, imageMetadata, movieCommentaries);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -75,7 +75,10 @@ public class MovieRepositoryImpl implements MovieRepository {
 				MovieGenre movieGenre = movieGenreRepository.findById(rs.getInt("movie_genre_id")).orElse(null);
 				ImageMetadata imageMetadata = imageRepository.findById(rs.getInt("image_metadata_id")).orElse(null);
 				List<Person> participants = personRepository.findByMovieId(id);
-				Movie movie = new Movie(id, name, dateOfRelease, country, averageRating, movieGenre, participants, description, imageMetadata);
+				List<MovieCommentary> movieCommentaries = movieCommentaryRepository.findByMovieId(id);
+
+				Movie movie = new Movie(id, name, dateOfRelease, country, averageRating, movieGenre,
+						participants, description, imageMetadata, movieCommentaries);
 				movies.add(movie);
 			}
 		} catch (SQLException throwables) {
