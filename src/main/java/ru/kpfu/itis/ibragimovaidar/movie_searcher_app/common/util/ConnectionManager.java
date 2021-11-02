@@ -29,10 +29,7 @@ public final class ConnectionManager {
 
 	public static Connection getConnection() {
 		try {
-			if (connection == null || connection.isClosed()){
-				connection = DriverManager.getConnection(jdbcUrl, username, password);
-			}
-			return connection;
+			return DriverManager.getConnection(jdbcUrl, username, password);
 		} catch (SQLException e) {
 			LOGGER.error("DB connection establishing error", e);
 			throw new RuntimeException(e);

@@ -24,12 +24,11 @@ public class ProfileServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String username = req.getParameter("username");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("username");
 		UserDTO userDTO = userService.findByUsername(username).orElseThrow(ServletException::new);
-		System.out.println(userDTO);
-		req.setAttribute("userDTO", userDTO);
-		req.setAttribute("imageSrc", "/images/" + userDTO.getImageMetadata().getFolder() + "?w=256&h=256");
-		req.getRequestDispatcher("profile.ftl").forward(req, resp);
+		request.setAttribute("userDTO", userDTO);
+		request.setAttribute("imageSrc", "/images/" + userDTO.getImageMetadata().getFolder() + "?w=256&h=256");
+		request.getRequestDispatcher("profile.ftl").forward(request, response);
 	}
 }

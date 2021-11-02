@@ -2,7 +2,6 @@ package ru.kpfu.itis.ibragimovaidar.movie_searcher_app.web.servlet;
 
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.dto.UserSignUpForm;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.UserService;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -35,6 +34,7 @@ public class SignUpServlet extends HttpServlet {
 		UserSignUpForm userSignUpForm = new UserSignUpForm(
 				req.getParameter("username"),
 				req.getParameter("password"),
+				req.getParameter("description"),
 				req.getParameter("email"),
 				req.getParameter("firstName"),
 				req.getParameter("lastName"),

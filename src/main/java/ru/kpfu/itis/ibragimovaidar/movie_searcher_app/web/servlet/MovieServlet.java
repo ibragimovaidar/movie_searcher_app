@@ -33,7 +33,7 @@ public class MovieServlet extends HttpServlet {
 
 		req.setAttribute("userDTO", null);
 		if (req.getSession().getAttribute("authorized") != null &&
-				(Boolean) req.getSession().getAttribute("authorized").equals(true)){
+				req.getSession().getAttribute("authorized").equals(true)){
 			UserDTO userDTO = (UserDTO) req.getSession(false).getAttribute("userDTO");
 			req.setAttribute("userDTO", userDTO);
 			req.setAttribute("authorized", true);

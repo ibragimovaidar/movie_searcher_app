@@ -1,5 +1,6 @@
 package ru.kpfu.itis.ibragimovaidar.movie_searcher_app.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.ImageRepository;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.MovieCommentaryRepository;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.MovieGenreRepository;
@@ -14,17 +15,8 @@ import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.MovieRepos
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.PersonRepositoryImpl;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.ReviewRepositoryImpl;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.repository.impl.UserRepositoryImpl;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.ImageResizeService;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.MovieCommentaryService;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.MovieService;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.PersonService;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.UserService;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.ImageResizeServiceImpl;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.ImagesService;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.MovieCommentaryServiceImpl;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.MovieServiceImpl;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.PersonServiceImpl;
-import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.UserServiceImpl;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.*;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.service.impl.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -44,7 +36,7 @@ public class ContextListener implements ServletContextListener {
 		MovieCommentaryRepository movieCommentaryRepository = new MovieCommentaryRepositoryImpl();
 		MovieRepository movieRepository =
 				new MovieRepositoryImpl(imageRepository, personRepository, movieGenreRepository, movieCommentaryRepository);
-		ReviewRepository reviewRepository = new ReviewRepositoryImpl(movieRepository);
+		ReviewRepository reviewRepository = new ReviewRepositoryImpl();
 		UserRepository userRepository = new UserRepositoryImpl(imageRepository, reviewRepository);
 
 		movieCommentaryRepository.setUserRepository(userRepository);
@@ -64,9 +56,18 @@ public class ContextListener implements ServletContextListener {
 		ImagesService imagesService = new ImagesService(imageResizeService, userRepository, imageRepository);
 		context.setAttribute(ImagesService.class.getName(), imagesService);
 
+		ReviewService reviewService = new ReviewServiceImpl(movieRepository, reviewRepository);
+		context.setAttribute(ReviewService.class.getName(), reviewService);
+
+		MovieGenreService movieGenreService = new MovieGenreServiceImpl(movieGenreRepository);
+		context.setAttribute(MovieGenreService.class.getName(), movieGenreService);
+
 		MovieCommentaryService movieCommentaryService =
 				new MovieCommentaryServiceImpl(movieCommentaryRepository, userRepository);
 		context.setAttribute(MovieCommentaryService.class.getName(), movieCommentaryService);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		context.setAttribute(ObjectMapper.class.getName(), objectMapper);
 	}
 
 	@Override

@@ -21,7 +21,12 @@ public class Movie {
 	public Movie() {
 	}
 
-	public Movie( String name, LocalDate dateOfRelease, String country, Integer averageRating, MovieGenre movieGenre, List<Person> participants, String description, ImageMetadata imageMetadata, List<MovieCommentary> movieCommentaries) {
+	public Movie(Integer id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+	public Movie(String name, LocalDate dateOfRelease, String country, Integer averageRating, MovieGenre movieGenre, List<Person> participants, String description, ImageMetadata imageMetadata, List<MovieCommentary> movieCommentaries) {
 		this.name = name;
 		this.dateOfRelease = dateOfRelease;
 		this.country = country;
