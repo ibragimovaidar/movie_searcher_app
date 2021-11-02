@@ -33,6 +33,10 @@
                         <label for="dateOfBirth" class="form-label">Date of birth</label>
                         <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth">
                     </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Bio</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
                     <button type="submit" class="btn btn-outline-secondary">Sign in</button>
                 </form>
             </div>

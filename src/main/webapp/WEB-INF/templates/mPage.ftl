@@ -42,12 +42,17 @@
                         </div>
                     </div>
                 </div>
+                <#if authorized??>
+                    <div class="movie__info__review_btn__wrapper">
+                        <a href="/createReview?movieId=${movieDTO.id}" class="btn ">Написать рецензию</a>
+                    </div>
+                </#if>
             </div>
             <div class="col-md-2 movie__info__info">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 movie__info__info__rating ">
-                            <p class="h1 text-center movie__rating__value"><strong>97/100</strong></p>
+                            <p class="h1 text-center movie__rating__value"><strong>${movieDTO.averageRating}/100</strong></p>
                             <a href="#" class="text-dark">
                                 <p class="text-center">24 рецензии</p>
                             </a>

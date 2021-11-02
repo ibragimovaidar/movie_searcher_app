@@ -39,13 +39,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Аниме</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Категории</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Рецензии</a>
+                        <a class="nav-link" href="/genres">Категории</a>
                     </li>
                 </ul>
             </div>
@@ -69,9 +63,37 @@
 <footer>
 
 </footer>
+<!-- ajax google cdn -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!-- Bootstrap JavaScript Libraries -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script src="/static/js/style.js"></script>
+<script>
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')})
+</script>
+<script>
+    $(document).ready(function(){
+        $('.review__selector').click(function(event){
+            $("#exampleModal").modal('show');
+            event.preventDefault();
+            $.ajax({
+                url:'/review?' + event.target.id,
+                type:'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $("#modal-review-movieName").html(data['movieName']);
+                    $("#modal-review-movieName").attr('href', '/movie/' + data['movieId']);
+                    $("#modal-review-rating").html(data['rating'] + '/100');
+                    $("#modal-review-text").html(data['description']);
+                },
+                error: function(){
+                    $(".modal-body").html('Error');
+                }
+            })
+        })
+    })
+</script>
 </body>
 </html>
