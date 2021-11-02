@@ -1,9 +1,11 @@
 package ru.kpfu.itis.ibragimovaidar.movie_searcher_app.dto;
 
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.ImageMetadata;
+import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.Review;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.User;
 import ru.kpfu.itis.ibragimovaidar.movie_searcher_app.model.UserRole;
 
+import java.util.List;
 import java.util.StringJoiner;
 
 public class UserDTO {
@@ -15,8 +17,9 @@ public class UserDTO {
 	private final UserRole role;
 	private final String description;
 	private final ImageMetadata imageMetadata;
+	private final List<Review> reviews;
 
-	public UserDTO(Integer id, String username, String firstName, String lastName, UserRole role, String description, ImageMetadata imageMetadata) {
+	public UserDTO(Integer id, String username, String firstName, String lastName, UserRole role, String description, ImageMetadata imageMetadata, List<Review> reviews) {
 		this.id = id;
 		this.username = username;
 		this.firstName = firstName;
@@ -24,6 +27,7 @@ public class UserDTO {
 		this.role = role;
 		this.description = description;
 		this.imageMetadata = imageMetadata;
+		this.reviews = reviews;
 	}
 
 	public Integer getId() {
@@ -54,6 +58,9 @@ public class UserDTO {
 		return imageMetadata;
 	}
 
+	public List<Review> getReviews() {
+		return reviews;
+	}
 
 	public static UserDTO from(User user){
 		return new UserDTO(
@@ -63,8 +70,8 @@ public class UserDTO {
 				user.getLastName(),
 				user.getRole(),
 				user.getDescription(),
-				user.getImageMetadata()
-		);
+				user.getImageMetadata(),
+				user.getReviews());
 	}
 
 	@Override

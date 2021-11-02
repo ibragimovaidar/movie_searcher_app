@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
 	public UserDTO createUser(UserSignUpForm userSignUpForm){
 		User user = new User();
 		user.setUsername(userSignUpForm.getUsername());
+		user.setDescription(userSignUpForm.getDescription());
 		user.setPasswordHash(PasswordUtil.encrypt(userSignUpForm.getPassword()));
 		user.setEmail(userSignUpForm.getEmail());
 		user.setFirstName(userSignUpForm.getFirstName());

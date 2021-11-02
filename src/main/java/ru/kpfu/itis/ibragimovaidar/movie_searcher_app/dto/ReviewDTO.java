@@ -8,16 +8,22 @@ import java.util.StringJoiner;
 
 public class ReviewDTO {
 
+	private final Integer id;
 	private final Integer rating;
 	private final String description;
 	private final Movie movie;
 	private final LocalDateTime createdAt;
 
-	public ReviewDTO(Integer rating, String description, Movie movie, LocalDateTime createdAt) {
+	public ReviewDTO(Integer id, Integer rating, String description, Movie movie, LocalDateTime createdAt) {
+		this.id = id;
 		this.rating = rating;
 		this.description = description;
 		this.movie = movie;
 		this.createdAt = createdAt;
+	}
+
+	public Integer getId() {
+		return id;
 	}
 
 	public Integer getRating() {
@@ -39,7 +45,8 @@ public class ReviewDTO {
 	@Override
 	public String toString() {
 		return new StringJoiner(", ", ReviewDTO.class.getSimpleName() + "[", "]")
-				.add("rating=" + rating)
+				.add("id='" + id + "'")
+				.add("rating='" + rating + "'")
 				.add("description='" + description + "'")
 				.add("movie=" + movie)
 				.add("createdAt=" + createdAt)
@@ -48,6 +55,7 @@ public class ReviewDTO {
 
 	public static ReviewDTO from(Review review){
 		return new ReviewDTO(
+				review.getId(),
 				review.getRating(),
 				review.getDescription(),
 				review.getMovie(),

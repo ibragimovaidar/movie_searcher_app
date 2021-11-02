@@ -5,19 +5,18 @@ import java.util.StringJoiner;
 
 public class UserSignUpForm {
 
-	private String username;
-	private String password;
-	private String email;
-	private String firstName;
-	private String lastName;
-	private LocalDate dateOfBirth;
+	private final String username;
+	private final String password;
+	private final String description;
+	private final String email;
+	private final String firstName;
+	private final String lastName;
+	private final LocalDate dateOfBirth;
 
-	public UserSignUpForm() {
-	}
-
-	public UserSignUpForm(String username, String password, String email, String firstName, String lastName, LocalDate dateOfBirth) {
+	public UserSignUpForm(String username, String password, String description, String email, String firstName, String lastName, LocalDate dateOfBirth) {
 		this.username = username;
 		this.password = password;
+		this.description = description;
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -28,48 +27,28 @@ public class UserSignUpForm {
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public String getDescription() {
+		return description;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getFirstName() {
 		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
 	}
 
 	public String getLastName() {
 		return lastName;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
 	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(LocalDate dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
 	}
 
 	@Override
