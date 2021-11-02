@@ -19,7 +19,17 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReviewRepositoryImpl.class);
 
-	private MovieRepository movieRepository;
+	private final Function<ResultSet, Movie> movieRowMapper = (ResultSet rs) -> {
+		try {
+			int movieId = rs.getInt("movie_id");
+			String movieName = rs.getString("movie_name");
+			return new Movie(movieId, movieName);
+		} catch (SQLException throwables) {
+			LOGGER.error("", throwables);
+			throwables.printStackTrace();
+			return null;
+		}
+	};
 
 	private final Function<ResultSet, List<Review>> reviewListResultSetExtractor = (ResultSet rs) -> {
 		List<Review> reviews = new ArrayList<>();
@@ -28,7 +38,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 				int id = rs.getInt("id");
 				int rating = rs.getInt("rating");
 				String description = rs.getString("description");
-				Movie movie = movieRepository.findById(rs.getInt("movie_id")).orElse(null);
+				Movie movie = movieRowMapper.apply(rs);
 				LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 				reviews.add(new Review(id, rating, description, movie, createdAt));
 			}
@@ -46,7 +56,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 				int id = rs.getInt("id");
 				int rating = rs.getInt("rating");
 				String description = rs.getString("description");
-				Movie movie = movieRepository.findById(rs.getInt("movie_id")).orElse(null);
+				Movie movie = movieRowMapper.apply(rs);
 				LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 				review = new Review(id, rating, description, movie, createdAt);
 			}
@@ -56,13 +66,14 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 		return review;
 	};
 
-	public ReviewRepositoryImpl(MovieRepository movieRepository) {
-		this.movieRepository = movieRepository;
+	public ReviewRepositoryImpl() {
 	}
 
 	//language=SQL
-	private static final String SQL_FIND_BY_ID = "SELECT id, rating, description, msa_user_id, movie_id, created_at " +
-			"FROM review WHERE id = ?";
+	private static final String SQL_FIND_BY_ID = "SELECT r.id as id, rating, r.description as description, msa_user_id, " +
+			"movie_id, created_at, m.id as movie_id, m.name as movie_name " +
+			"FROM review r JOIN movie m ON r.movie_id = m.id " +
+			"WHERE r.id = ?";
 
 	@Override
 	public Optional<Review> findById(Integer id) {
@@ -80,9 +91,10 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 	}
 
 	//language=SQL
-	private static final String SQL_FIND_BY_USER_ID = "SELECT id, rating, description, msa_user_id, " +
-			"movie_id, created_at " +
-			"FROM review WHERE msa_user_id = ?";
+	private static final String SQL_FIND_BY_USER_ID = "SELECT r.id as id, rating, r.description as description, msa_user_id, " +
+			"movie_id, created_at, m.id as movie_id, m.name as movie_name " +
+			"FROM review r JOIN movie m ON r.movie_id = m.id " +
+			"WHERE r.msa_user_id = ?";
 
 	@Override
 	public List<Review> findByUserId(Integer userId) {
@@ -99,9 +111,10 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 	}
 
 	//language=SQL
-	private static final String SQL_FIND_BY_MOVIE_ID = "SELECT id, rating, description, " +
-			"msa_user_id, movie_id, created_at " +
-			"FROM review WHERE movie_id = ?";
+	private static final String SQL_FIND_BY_MOVIE_ID = "SELECT r.id as id, rating, r.description as description, msa_user_id, " +
+			"movie_id, created_at, m.id as movie_id, m.name as movie_name " +
+			"FROM review r JOIN movie m ON r.movie_id = m.id " +
+			"WHERE r.movie_id = ?";
 
 	@Override
 	public List<Review> findByMovieId(Integer movieId) {
@@ -124,7 +137,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 	@Override
 	public Review save(Review review, int userId) {
 		try (Connection connection = ConnectionManager.getConnection();
-			 PreparedStatement statement = connection.prepareStatement(SQL_SAVE)
+			 PreparedStatement statement = connection.prepareStatement(SQL_SAVE, Statement.RETURN_GENERATED_KEYS)
 		) {
 			statement.setInt(1, review.getRating());
 			statement.setString(2, review.getDescription());

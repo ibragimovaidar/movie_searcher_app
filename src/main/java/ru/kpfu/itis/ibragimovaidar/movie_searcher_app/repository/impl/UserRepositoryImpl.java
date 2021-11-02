@@ -154,7 +154,7 @@ public class UserRepositoryImpl implements UserRepository {
 			if (user.getImageMetadata() != null){
 				statement.setInt(10, user.getImageMetadata().getId());
 			} else {
-				statement.setInt(10, 0);
+				statement.setInt(10, -1);
 			}
 			int affectedRows = statement.executeUpdate();
 			if (affectedRows != 1){
