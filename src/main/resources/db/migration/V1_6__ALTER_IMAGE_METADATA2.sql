@@ -1,0 +1,1 @@
+ALTER TABLE image_metadata ADD COLUMN folder VARCHAR(255);

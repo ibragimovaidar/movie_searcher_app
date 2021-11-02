@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;700&display=swap');
+
+body {
+    background-color: #F4F4F4;
+    font-family: 'Rubik', sans-serif;
+}
+
+.header__navbar {
+    background-color: #FF6F22;
+}
+
+.header__content {
+    background-color: #fff;
+}
+
+.header__item {
+    height: 100px;
+}
+
+.user__info {
+    width: 256px;
+    text-align: center;
+    height: 300px;
+}
+
+.user__info__name {
+    width: 256px;
+
+    padding-top: 10px;
+    margin: 10px auto;
+}
+
+.user__info__description {
+    text-align: left;
+}
+
+.user__info p {
+    text-align: center;
+}
+
+/* sticky navbar */
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+
+
+.reviews__header {
+    width: 100%;
+    height: 40px;
+    border-bottom: #FF6F22 1px solid;
+    
+    text-align: center;    
+    font-weight: 700;
+    color: #FF6F22;
+    text-transform: uppercase;
+}
+
+.reviews {
+    width: 100%;
+    text-align: center;
+}
+
+.review__item {
+    width: 100%;
+    height: 100px;
+    border-bottom: 1px #D6D6D6 solid;
+}
+
+
+
+
+
+
+.movie__info {
+    padding-top: 60px;
+}
+
+.movie__info__about {
+    padding-top: 30px;
+}
+
+.movie__info__about__table {
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.movie__info__participants {
+    text-align: left;
+    margin-top: 50px;
+}
+
+.movie__info__participants__header {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.movie__info__review_btn__wrapper {
+    margin-left: 30px;
+}
+
+.movie__description__row {
+    margin-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+
+}
+
+.movie__rating__value {
+    color: #3BB33B;
+}
+
+/* Movie comments */
+
+.movie__comments {
+    margin-top: 50px;
+}
+
+.movie__comments__header__wrapper {
+    margin-top: 100px;
+}
+
+.movie__comments__header {
+
+}
+
+/* ---- Movie comments list */
+
+
+.movie__comments__list__wrapper {
+    margin-top: 20px;
+}
+
+/* ---- ---- Movie comment elem */
+
+.movie__comments__list__elem {
+    margin-top:10px;
+    border-bottom: 1px #D6D6D6 solid;
+    
+}
+
+.movie__comment__created_at {
+    color: #FF6F22;
+    font-size: 12px;
+}
+
+.movie__comment__username {
+    color: #FF6F22;
+}
+
+.movie__comment__text {
+
+}
+/* ---- ---- end Movie comments elem*/
+
+.movie__comments__form__wrapper {
+    border-top: 1px #D6D6D6 solid;
+    border-bottom: 1px #D6D6D6 solid;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+
+/* ---- Movie comments list end */
+
+/* end Movie comments */
+
+
+.main__container {
+    background-color: #F9F9F9;
+}
+
+
+.person__image__wrapper {
+    text-align: center;
+    border-right: #E4E4E4 1px solid;
+
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.person__info__info {
+    padding: 60px 20px 60px 60px;
+}
+
+
+.person__name {
+    padding-bottom: 20px;
+}
+
+.text__grey {
+    color: #777777;
+}
+
+.link__grey {
+    color: #777777;
+    text-decoration: underline;
+}
+
+.link__grey:hover {
+    color:#D6D6D6;
+}
+
+
+.btn {
+    background-color: #FF6F22;
+}
